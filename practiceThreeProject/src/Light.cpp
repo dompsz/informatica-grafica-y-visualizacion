@@ -52,7 +52,7 @@ void Light::apply() {
 }
 
 void Light::draw() { // Removed const
-    if (enabled && (type == POINT || type == SPOTLIGHT)) {
+    if (enabled && (type == POINT_LIGHT || type == SPOTLIGHT)) {
         glPushMatrix();
         applyTransformations();
 

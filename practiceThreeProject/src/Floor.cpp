@@ -34,10 +34,10 @@ void Floor::loadTextures() {
     textures.back()->load("textures/grid.png");
 
     textures.push_back(std::make_unique<Texture>());
-    textures.back()->load("textures/grass.png");
+    textures.back()->load("textures/water.png");
 
     textures.push_back(std::make_unique<Texture>());
-    textures.back()->load("textures/rock.png");
+    textures.back()->load("textures/bricks.png");
 }
 
 void Floor::setMaterial(int materialIndex) {

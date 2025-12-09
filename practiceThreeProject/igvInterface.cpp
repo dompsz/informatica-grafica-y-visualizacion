@@ -64,7 +64,7 @@ igvInterface::~igvInterface() {
 
 void igvInterface::setupLights() {
     // GL_LIGHT0 - Point Light
-    lights.push_back(std::make_unique<Light>(POINT, GL_LIGHT0));
+    lights.push_back(std::make_unique<Light>(POINT_LIGHT, GL_LIGHT0));
     lights[0]->setPosition(0.0f, 5.0f, 5.0f);
     lights[0]->toggle(); // Enabled by default
 
@@ -320,7 +320,7 @@ void igvInterface::create_menus() {
     int material_menu = glutCreateMenu(material_menu_callback);
     glutAddMenuEntry("Rubber", 1);
     glutAddMenuEntry("Plastic", 2);
-    glutAddMenuEntry("Polished Metal", 3);
+    glutAddMenuEntry("Metal", 3);
 
     int texture_filter_menu = glutCreateMenu(texture_filter_menu_callback);
     glutAddMenuEntry("Nearest, Nearest", 1);
@@ -330,9 +330,9 @@ void igvInterface::create_menus() {
 
     int texture_main_menu = glutCreateMenu(texture_menu_callback);
     glutAddMenuEntry("Toggle Textures", 1);
-    glutAddMenuEntry("Checkerboard (Grid)", 2);
-    glutAddMenuEntry("Grass", 3);
-    glutAddMenuEntry("Rock", 4);
+    glutAddMenuEntry("Grid", 2);
+    glutAddMenuEntry("Water", 3);
+    glutAddMenuEntry("Bricks", 4);
     glutAddSubMenu("Filters", texture_filter_menu);
 
     int light_select_menu = glutCreateMenu(light_select_menu_callback);

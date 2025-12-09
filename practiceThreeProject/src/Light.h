@@ -9,7 +9,7 @@
 
 #include "Object3D.h"
 
-enum LightType { AMBIENT, POINT, DIRECTIONAL, SPOTLIGHT };
+enum LightType { AMBIENT, POINT_LIGHT, DIRECTIONAL, SPOTLIGHT };
 
 class Light : public Object3D {
 public:
