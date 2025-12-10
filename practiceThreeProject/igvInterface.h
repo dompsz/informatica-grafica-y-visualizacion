@@ -35,6 +35,7 @@ private:
     bool articulatedInteractionKeyboard;
     bool animateCamera;
     bool animateModel;
+    bool animateLight; // Added for light animation
     bool textureEnabled;
     bool globalAmbientLightOn;
 
@@ -72,6 +73,7 @@ public:
     void setInteraction(bool keyboard);
     void toggleAnimateModel();
     void toggleAnimateCamera();
+    void toggleAnimateLight(); // Added for light animation
     void setFloorMaterial(int materialIndex);
     void toggleTexture();
     void setFloorTexture(int textureIndex);

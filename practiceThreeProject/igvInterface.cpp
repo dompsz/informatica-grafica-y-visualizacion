@@ -51,6 +51,7 @@ igvInterface::igvInterface() {
     articulatedInteractionKeyboard = true;
     animateCamera = false;
     animateModel = false;
+    animateLight = false; // Initialized to false
     textureEnabled = true;
     globalAmbientLightOn = true;
 }
@@ -152,6 +153,7 @@ void igvInterface::keyboardFunc(unsigned char key, int x, int y) {
         
         case 'a': case 'A': i->toggleAnimateModel(); break;
         case 'g': case 'G': i->toggleAnimateCamera(); break;
+        case 'b': case 'B': i->toggleAnimateLight(); break; // Shortcut for light animation
     }
     glutPostRedisplay();
 }
@@ -274,6 +276,16 @@ void igvInterface::idleFunc() {
     if (i->animateModel) i->articulatedModel->update(current_time);
     if (i->animateCamera) i->camera->orbit(delta_time * 10.0f, 0);
 
+    if (i->animateLight) {
+        if (!i->lights.empty()) {
+            float radius = 7.0f;
+            float speed = 0.5f;
+            float light_x = sin(current_time * speed) * radius;
+            float light_z = cos(current_time * speed) * radius;
+            i->lights[0]->setPosition(light_x, 5.0f, light_z);
+        }
+    }
+
     glutPostRedisplay();
 }
 
@@ -316,6 +328,7 @@ void igvInterface::create_menus() {
     int animation_menu = glutCreateMenu(animation_menu_callback);
     glutAddMenuEntry("Toggle Model Animation", 1);
     glutAddMenuEntry("Toggle Camera Animation", 2);
+    glutAddMenuEntry("Toggle Light Animation", 3); // Added light animation menu
 
     int material_menu = glutCreateMenu(material_menu_callback);
     glutAddMenuEntry("Rubber", 1);
@@ -352,10 +365,10 @@ void igvInterface::create_menus() {
     glutAddSubMenu("Textures", texture_main_menu);
     glutAddSubMenu("Floor Material", material_menu);
     glutAddSubMenu("Shading", shading_menu);
-    glutAddSubMenu("Interaction Mode", interaction_menu); // Added Interaction Mode menu
-    glutAddSubMenu("Animation", animation_menu); // Added Animation menu
-    glutAddMenuEntry("Select Cow", 1); // Changed to 1
-    glutAddMenuEntry("Select Robot", 2); // Changed to 2
+    glutAddSubMenu("Interaction Mode", interaction_menu);
+    glutAddSubMenu("Animation", animation_menu);
+    glutAddMenuEntry("Select Cow", 1);
+    glutAddMenuEntry("Select Robot", 2);
     glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
@@ -381,9 +394,10 @@ void igvInterface::selectObject(int objectNum) {
 }
 
 void igvInterface::setShading(bool flat) { flatShading = flat; }
-void igvInterface::setInteraction(bool keyboard) { articulatedInteractionKeyboard = keyboard; } // Added setInteraction
+void igvInterface::setInteraction(bool keyboard) { articulatedInteractionKeyboard = keyboard; }
 void igvInterface::toggleAnimateModel() { animateModel = !animateModel; }
 void igvInterface::toggleAnimateCamera() { animateCamera = !animateCamera; }
+void igvInterface::toggleAnimateLight() { animateLight = !animateLight; } // Implemented toggle
 
 void igvInterface::setFloorMaterial(int materialIndex) { floor->setMaterial(materialIndex); }
 void igvInterface::toggleTexture() { textureEnabled = !textureEnabled; floor->toggleTexture(textureEnabled); }
@@ -419,13 +433,14 @@ void shading_menu_callback(int option) {
     glutPostRedisplay();
 }
 
-void interaction_menu_callback(int option) { // Added interaction_menu_callback
+void interaction_menu_callback(int option) {
     igvInterface::getInstance().setInteraction(option == 1);
 }
 
 void animation_menu_callback(int option) {
     if (option == 1) igvInterface::getInstance().toggleAnimateModel();
     if (option == 2) igvInterface::getInstance().toggleAnimateCamera();
+    if (option == 3) igvInterface::getInstance().toggleAnimateLight(); // Added handler for light animation
 }
 
 void material_menu_callback(int option) {
