@@ -5,3 +5,5 @@
 */*.zip
 */*.pdf
 /.idea
+*.zip
+*.mp4
